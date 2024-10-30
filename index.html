@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PREDICTOR AVIATOR 2.0</title>
+    <style>
+        /* Diseño adaptable */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #000033, #330000); /* Degradado de azul marino oscuro a rojo oscuro */
+            color: #ffd700;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(40, 44, 52, 0.8); /* Fondo semi-transparente */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #ffd700; /* Color dorado brillante */
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3); /* Brillo */
+            margin-top: 20px; /* Espacio superior para el título */
+        }
+
+        #number {
+            font-size: 2em;
+            margin: 20px 0;
+            color: #ffd700; /* Color dorado brillante */
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3); /* Brillo */
+        }
+
+        button {
+            font-size: 1em;
+            padding: 10px 20px;
+            color: #ffffff;
+            background-color: #ff4500;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra para contraste */
+        }
+
+        button:hover {
+            background-color: #ff6347;
+        }
+
+        /* Estilo para la barra de entrada de URL */
+        .url-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            width: 100%; /* Asegura que ocupe el ancho completo */
+        }
+
+        .url-container input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 60%; /* Ancho del campo de entrada */
+            margin-right: 10px;
+        }
+
+        .url-container button {
+            padding: 10px 15px; /* Tamaño del botón para enviar la URL */
+        }
+
+        /* Estilo para el campo de ID y su etiqueta */
+        .id-container {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .id-container label {
+            color: #ffd700; /* Color dorado */
+            font-size: 1em;
+            margin-right: 10px;
+        }
+
+        .id-container input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Contenedor para la barra de entrada de URL -->
+        <div class="url-container">
+            <input type="text" id="urlInput" placeholder="Ingresa la URL aquí">
+            <button onclick="obtenerDatosDeURL()">Cargar Datos</button>
+        </div>
+
+        <h1>PREDICTOR AVIATOR 2.0</h1>
+        <div id="number">Predice la siguiente jugada</div>
+        <button onclick="generarNumero()">Predecir</button>
+
+        <!-- Contenedor para el ID -->
+        <div class="id-container">
+            <label for="idInput">Colocar ID:</label>
+            <input type="text" id="idInput" placeholder="Ingresa tu ID">
+        </div>
+    </div>
+
+    <script>
+        // Función para generar un número aleatorio basado en probabilidades
+        function generarNumero() {
+            const rand = Math.random() * 100; // Genera un número aleatorio entre 0 y 100
+            let numero;
+
+            // Definir las probabilidades y sus rangos
+            if (rand < 70) { 
+                // 70% de probabilidad para el rango 1.00 - 1.99
+                numero = (1.00 + Math.random()).toFixed(2);
+            } else if (rand < 85) { 
+                // 15% de probabilidad para el rango 2.00 - 4.99
+                numero = (2.00 + Math.random() * 2.99).toFixed(2);
+            } else if (rand < 93) { 
+                // 8% de probabilidad para el rango 5.00 - 9.99
+                numero = (5.00 + Math.random() * 4.99).toFixed(2);
+            } else if (rand < 97) { 
+                // 4% de probabilidad para el rango 10.00 - 29.99
+                numero = (10.00 + Math.random() * 19.99).toFixed(2);
+            } else if (rand < 99) { 
+                // 2% de probabilidad para el rango 30.00 - 49.99
+                numero = (30.00 + Math.random() * 19.99).toFixed(2);
+            } else { 
+                // 1% de probabilidad para el rango 50.00 - 99.99
+                numero = (50.00 + Math.random() * 49.99).toFixed(2);
+            }
+
+            // Mostrar el número en pantalla
+            document.getElementById('number').innerText = numero;
+
+            // Aquí puedes llamar a la función para obtener jugadas en línea (si decides hacerlo más adelante)
+            // obtenerJugadas();
+        }
+
+        // Función para obtener datos de la URL ingresada
+        async function obtenerDatosDeURL() {
+            const url = document.getElementById('urlInput').value; // Obtener la URL del campo de entrada
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Error en la red');
+
+                const data = await response.json(); // Supongamos que la respuesta es JSON
+                console.log(data); // Aquí puedes procesar los datos como desees
+
+                // Puedes realizar más acciones con los datos recibidos aquí
+            } catch (error) {
+                console.error('Error al obtener los datos:', error);
+            }
+        }
+    </script>
+</body>
+</html>
